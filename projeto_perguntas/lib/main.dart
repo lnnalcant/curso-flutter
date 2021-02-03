@@ -1,66 +1,46 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import './questao.dart';
+import './reposta.dart';
 
-void main() {
-  runApp(MyApp());
-}
+main() => runApp(PerguntaApp());
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+class _PerguntaAppState extends State<PerguntaApp> {
+  var _perguntaSelecionada = 0;
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
+  void _responder() {
     setState(() {
-      _counter++;
+      _perguntaSelecionada++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+    final List<String> perguntas = [
+      'Qual é a sua cor favorita?',
+      'Qual é o seu animal favorito?',
+    ];
+
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Perguntas'),
+        ),
+        body: Column(
+          children: [
+            Questao(perguntas[_perguntaSelecionada]),
+            Resposta('1', _responder),
+            Resposta('2', _responder),
+            Resposta('3', _responder),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
     );
+  }
+}
+
+class PerguntaApp extends StatefulWidget {
+  _PerguntaAppState createState() {
+    return _PerguntaAppState();
   }
 }
