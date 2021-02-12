@@ -19,7 +19,6 @@ class TransactionItem extends StatefulWidget {
 }
 
 class _TransactionItemState extends State<TransactionItem> {
-
   static const colors = [
     Colors.red,
     Colors.purple,
@@ -59,7 +58,7 @@ class _TransactionItemState extends State<TransactionItem> {
         ),
         title: Text(
           widget.tr.title,
-          style: Theme.of(context).textTheme.title,
+          style: Theme.of(context).textTheme.headline6,
         ),
         subtitle: Text(
           DateFormat('d MMM y').format(widget.tr.date),
