@@ -32,7 +32,6 @@ class _TransactionItemState extends State<TransactionItem> {
   @override
   void initState() {
     super.initState();
-
     int i = Random().nextInt(5);
     _backgroundColor = colors[i];
   }
