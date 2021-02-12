@@ -1,8 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:io';
+
 import 'package:expenses/components/transaction_form.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 import 'components/transaction_form.dart';
 import 'components/transaction_list.dart';
 import 'components/chart.dart';
@@ -20,8 +22,8 @@ class ExpensesApp extends StatelessWidget {
         accentColor: Colors.amber,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
-                fontFamily: 'Opensans',
+              title: TextStyle(
+                fontFamily: 'OpenSans',
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -32,8 +34,8 @@ class ExpensesApp extends StatelessWidget {
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
-                  fontFamily: 'Opensans',
+                title: TextStyle(
+                  fontFamily: 'OpenSans',
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -49,9 +51,27 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _transactions = [];
   bool _showChart = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -84,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
-      context: context,
+      context: context, 
       builder: (_) {
         return TransactionForm(_addTransaction);
       },
@@ -131,11 +151,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           )
         : AppBar(
-            title: Text('Depesas Pessoais'),
+            title: Text('Despesas Pessoais'),
             actions: actions,
           );
 
-    final availableheight = mediaQuery.size.height -
+    final availableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
         mediaQuery.padding.top;
 
@@ -145,29 +165,29 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // if (isLandscape)
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Text('Exibir Grafico'),
-            //     Switch.adaptive(
-            //       activeColor: Theme.of(context).accentColor,
-            //       value: _showChart,
-            //       onChanged: (value) {
-            //         setState(() {
-            //           _showChart = value;
-            //         });
-            //       },
-            //     ),
-            //   ],
-            // ),
+            //   Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: <Widget>[
+            //       Text('Exibir Gráfico'),
+            //       Switch.adaptive(
+            //         activeColor: Theme.of(context).accentColor,
+            //         value: _showChart,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             _showChart = value;
+            //           });
+            //         },
+            //       ),
+            //     ],
+            //   ),
             if (_showChart || !isLandscape)
               Container(
-                height: availableheight * (isLandscape ? 0.8 : 0.3),
+                height: availableHeight * (isLandscape ? 0.8 : 0.3),
                 child: Chart(_recentTransactions),
               ),
             if (!_showChart || !isLandscape)
               Container(
-                height: availableheight * (isLandscape ? 1 : 0.7),
+                height: availableHeight * (isLandscape ? 1 : 0.7),
                 child: TransactionList(_transactions, _removeTransaction),
               ),
           ],

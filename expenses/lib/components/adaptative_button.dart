@@ -1,8 +1,9 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AdaptativeButton extends StatelessWidget {
+
   final String label;
   final Function onPressed;
 
@@ -23,10 +24,10 @@ class AdaptativeButton extends StatelessWidget {
             ),
           )
         : RaisedButton(
-            color: Theme.of(context).primaryColor,
-            textColor: Theme.of(context).textTheme.button.color,
-            child: Text(label),
-            onPressed: onPressed,
-          );
+          color: Theme.of(context).primaryColor,
+          textColor: Theme.of(context).textTheme.button.color,
+          child: Text(label),
+          onPressed: onPressed,
+        );
   }
 }
