@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import '../models/meal.dart';
 
 class MealDetailScreen extends StatelessWidget {
+
+  final Function(Meal) onToggleFavorite;
+  final bool Function(Meal) isFavorite;
+
+  const MealDetailScreen(this.onToggleFavorite, this.isFavorite);
+
   Widget _createSectionTitle(BuildContext context, String title) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Text(
         title,
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.title,
       ),
     );
   }
@@ -38,7 +44,7 @@ class MealDetailScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: [
+          children: <Widget>[
             Container(
               height: 300,
               width: double.infinity,
@@ -65,12 +71,13 @@ class MealDetailScreen extends StatelessWidget {
                 },
               ),
             ),
+            _createSectionTitle(context, 'Passos'),
             _createSectionContainer(
               ListView.builder(
                 itemCount: meal.steps.length,
                 itemBuilder: (ctx, index) {
                   return Column(
-                    children: [
+                    children: <Widget>[
                       ListTile(
                         leading: CircleAvatar(
                           child: Text('${index + 1}'),
@@ -87,9 +94,9 @@ class MealDetailScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.star),
+        child: Icon(isFavorite(meal) ? Icons.star : Icons.star_border),
         onPressed: () {
-          Navigator.of(context).pop(meal.title);
+          onToggleFavorite(meal);
         },
       ),
     );

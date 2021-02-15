@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:meals/models/meal.dart';
-import 'package:meals/utils/app_routes.dart';
 
 import '../models/meal.dart';
+import '../utils/app_routes.dart';
 
 class MealItem extends StatelessWidget {
   final Meal meal;
@@ -10,17 +9,16 @@ class MealItem extends StatelessWidget {
   const MealItem(this.meal);
 
   void _selectMeal(BuildContext context) {
-    Navigator.of(context)
-        .pushNamed(
-          AppRoutes.MEAL_DETAIL,
-          arguments: meal,
-        )
-        .then((result) => {
-              if (result == null)
-                {print('sem resultado')}
-              else
-                {print('O nome da refeição é $result')}
-            });
+    Navigator.of(context).pushNamed(
+      AppRoutes.MEAL_DETAIL,
+      arguments: meal,
+    ).then((result) {
+      if(result == null) {
+        print('Sem resultado!');
+      } else {
+        print('O nome da refeição é $result.');
+      }
+    });
   }
 
   @override
@@ -76,23 +74,23 @@ class MealItem extends StatelessWidget {
               padding: EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
+                children: <Widget>[
                   Row(
-                    children: [
+                    children: <Widget>[
                       Icon(Icons.schedule),
                       SizedBox(width: 6),
                       Text('${meal.duration} min'),
                     ],
                   ),
                   Row(
-                    children: [
+                    children: <Widget>[
                       Icon(Icons.work),
                       SizedBox(width: 6),
                       Text(meal.complexityText),
                     ],
                   ),
                   Row(
-                    children: [
+                    children: <Widget>[
                       Icon(Icons.attach_money),
                       SizedBox(width: 6),
                       Text(meal.costText),
@@ -100,7 +98,7 @@ class MealItem extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),
