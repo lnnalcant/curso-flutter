@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/cart.dart';
+
+import '../utils/appRoutes.dart';
+
 import '../widgets/product_grid.dart';
+import '../widgets/badge.dart';
+import '../widgets/app_drawer.dart';
 
 enum FilterOptions {
   Favorite,
   All,
 }
 
-class ProductOverviewScreen extends StatefulWidget {
+class ProductsOverviewScreen extends StatefulWidget {
   @override
-  _ProductOverviewScreenState createState() => _ProductOverviewScreenState();
+  _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
 }
 
-class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
+class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   bool _showFavoriteOnly = false;
 
   @override
@@ -19,7 +27,7 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Minha Loja'),
-        actions: <Widget>[
+        actions: [
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
               setState(() {
@@ -39,12 +47,25 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
               PopupMenuItem(
                 child: Text('Todos'),
                 value: FilterOptions.All,
-              ),
+              )
             ],
+          ),
+          Consumer<Cart>(
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                Navigator.of(context).pushNamed(AppRoute.CART);
+              },
+            ),
+            builder: (ctx, cart, child) => Badge(
+              value: cart.itemsCount.toString(),
+              child: child,
+            ),
           )
         ],
       ),
       body: ProductGrid(_showFavoriteOnly),
+      drawer: AppDrawer(),
     );
   }
 }
