@@ -1,13 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
-import './product.dart';
-
+import '../providers/product.dart';
 import '../data/dummy_data.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = DUMMY_PRODUCTS;
-
-  // bool _showFavoriteOnly = false;
 
   List<Product> get items => [..._items];
 
@@ -21,13 +18,15 @@ class Products with ChangeNotifier {
   }
 }
 
-/* void showFavoriteOnly() {
-    _showFavoriteOnly = true;
-    notifyListeners();
-  }
+// controlando o filtro de forma global:
+// bool _showFavoriteOnly = false;
 
-  void showAll() {
-    _showFavoriteOnly = false;
-    notifyListeners();
-  }
- */
+// void showFavoriteOnly() {
+//   _showFavoriteOnly = true;
+//   notifyListeners();
+// }
+
+// void showFavoriteAll() {
+//   _showFavoriteOnly = false;
+//   notifyListeners();
+// }

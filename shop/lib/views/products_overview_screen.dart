@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/cart.dart';
-
-import '../utils/appRoutes.dart';
-
 import '../widgets/product_grid.dart';
 import '../widgets/badge.dart';
-import '../widgets/app_drawer.dart';
+import '../providers/cart.dart';
+import '../utils/app_routes.dart';
 
 enum FilterOptions {
   Favorite,
   All,
 }
 
-class ProductsOverviewScreen extends StatefulWidget {
+class ProductOverviewScreen extends StatefulWidget {
   @override
-  _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
+  _ProductOverviewScreenState createState() => _ProductOverviewScreenState();
 }
 
-class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   bool _showFavoriteOnly = false;
 
   @override
@@ -27,7 +24,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Minha Loja'),
-        actions: [
+        actions: <Widget>[
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
               setState(() {
@@ -47,25 +44,24 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               PopupMenuItem(
                 child: Text('Todos'),
                 value: FilterOptions.All,
-              )
+              ),
             ],
           ),
           Consumer<Cart>(
             child: IconButton(
               icon: Icon(Icons.shopping_cart),
               onPressed: () {
-                Navigator.of(context).pushNamed(AppRoute.CART);
+                Navigator.of(context).pushNamed(AppRoutes.CART);
               },
             ),
-            builder: (ctx, cart, child) => Badge(
+            builder: (_, cart, child) => Badge(
               value: cart.itemsCount.toString(),
               child: child,
             ),
-          )
+          ),
         ],
       ),
       body: ProductGrid(_showFavoriteOnly),
-      drawer: AppDrawer(),
     );
   }
 }

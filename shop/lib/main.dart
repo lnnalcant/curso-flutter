@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-
-import './views/cart_screen.dart';
-import './views/product_detail_screen.dart';
-import './views/products_overview_screen.dart';
-import './views/orders_screen.dart';
-
 import 'package:provider/provider.dart';
+import 'package:shop/views/cart_screen.dart';
+
+import './views/products_overview_screen.dart';
+import './views/product_detail_screen.dart';
+import './views/cart_screen.dart';
+
+import './utils/app_routes.dart';
+
 import './providers/products.dart';
 import './providers/cart.dart';
-import './providers/orders.dart';
-
-import './utils/appRoutes.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,9 +23,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => new Cart(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => Orders(),
         )
       ],
       child: MaterialApp(
@@ -36,12 +32,10 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepOrange,
           fontFamily: 'Lato',
         ),
-        // home: ProductsOverviewScreen(),
+        home: ProductOverviewScreen(),
         routes: {
-          AppRoute.HOME: (ctx) => ProductsOverviewScreen(),
-          AppRoute.PRODUCT_DETAIL: (ctx) => ProductDetailScreen(),
-          AppRoute.CART: (ctx) => CartScreen(),
-          AppRoute.ORDERS: (ctx) => OrdersScreen(),
+          AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailScreen(),
+          AppRoutes.CART: (ctx) => CartScreen(),
         },
       ),
     );
