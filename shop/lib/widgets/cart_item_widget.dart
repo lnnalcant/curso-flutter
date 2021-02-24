@@ -20,7 +20,10 @@ class CartItemWidget extends StatelessWidget {
         ),
         alignment: Alignment.centerRight,
         padding: EdgeInsets.only(right: 20),
-        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+        margin: EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 4,
+        ),
       ),
       direction: DismissDirection.endToStart,
       onDismissed: (_) {
@@ -35,17 +38,18 @@ class CartItemWidget extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(8),
           child: ListTile(
-              leading: CircleAvatar(
-                child: Padding(
-                  padding: EdgeInsets.all(5),
-                  child: FittedBox(
-                    child: Text('${cartItem.price}'),
-                  ),
+            leading: CircleAvatar(
+              child: Padding(
+                padding: EdgeInsets.all(5),
+                child: FittedBox(
+                  child: Text('${cartItem.price}'),
                 ),
               ),
-              title: Text(cartItem.title),
-              subtitle: Text('Total: R\$${cartItem.price * cartItem.quantity}'),
-              trailing: Text('${cartItem.quantity}x')),
+            ),
+            title: Text(cartItem.title),
+            subtitle: Text('Total: R\$ ${cartItem.price * cartItem.quantity}'),
+            trailing: Text('${cartItem.quantity}x'),
+          ),
         ),
       ),
     );

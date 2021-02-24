@@ -1,12 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../providers/orders.dart';
 
 class OrderWidget extends StatefulWidget {
-  final Order orders;
+  final Order order;
 
-  OrderWidget(this.orders);
+  OrderWidget(this.order);
 
   @override
   _OrderWidgetState createState() => _OrderWidgetState();
@@ -20,15 +22,14 @@ class _OrderWidgetState extends State<OrderWidget> {
     return Card(
       margin: EdgeInsets.all(10),
       child: Column(
-        children: [
+        children: <Widget>[
           ListTile(
-            title: Text('R\$ ${widget.orders.total.toStringAsFixed(2)}'),
-            subtitle:
-                Text(DateFormat('dd/MM/yyyy hh:mm').format(widget.orders.date)),
+            title: Text('R\$ ${widget.order.total.toStringAsFixed(2)}'),
+            subtitle: Text(
+              DateFormat('dd/MM/yyyy hh:mm').format(widget.order.date),
+            ),
             trailing: IconButton(
-              icon: !_expanded
-                  ? Icon(Icons.expand_more)
-                  : Icon(Icons.expand_less),
+              icon: Icon(Icons.expand_more),
               onPressed: () {
                 setState(() {
                   _expanded = !_expanded;
@@ -42,12 +43,12 @@ class _OrderWidgetState extends State<OrderWidget> {
                 horizontal: 15,
                 vertical: 4,
               ),
-              height: (widget.orders.products.length * 25.0) + 10,
+              height: (widget.order.products.length * 25.0) + 10,
               child: ListView(
-                children: widget.orders.products.map((product) {
+                children: widget.order.products.map((product) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       Text(
                         product.title,
                         style: TextStyle(
@@ -56,10 +57,10 @@ class _OrderWidgetState extends State<OrderWidget> {
                         ),
                       ),
                       Text(
-                        '${product.quantity}x R\$ ${product.price}',
+                        '${product.quantity} x R\$ ${product.price}',
                         style: TextStyle(
-                          color: Colors.grey,
                           fontSize: 18,
+                          color: Colors.grey,
                         ),
                       ),
                     ],

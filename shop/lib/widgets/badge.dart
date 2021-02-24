@@ -28,7 +28,7 @@ class Badge extends StatelessWidget {
             ),
             constraints: BoxConstraints(
               minHeight: 16,
-              maxHeight: 16,
+              minWidth: 16,
             ),
             child: Text(
               value,
@@ -38,7 +38,7 @@ class Badge extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        )
       ],
     );
   }
