@@ -25,6 +25,27 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     _imageUrlFocusNode.addListener(_updateImageUrl);
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_formData.isEmpty) {
+      final product = ModalRoute.of(context).settings.arguments as Product;
+
+      if (product != null) {
+        _formData['id'] = product.id;
+        _formData['title'] = product.title;
+        _formData['description'] = product.description;
+        // _formData['price'] = product.price;
+        _formData['imageUrl'] = product.imageUrl;
+
+        _imageUrlController.text = _formData['imageUrl'];
+      } else {
+        _formData['price'] = '';
+      }
+    }
+  }
+
   void _updateImageUrl() {
     if (isValidImageUrl(_imageUrlController.text)) {
       setState(() {});
@@ -34,11 +55,11 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   bool isValidImageUrl(String url) {
     bool startsWithHttp = url.toLowerCase().startsWith('http://');
     bool startsWithHttps = url.toLowerCase().startsWith('https://');
-    bool endsWithPng = url.toLowerCase().startsWith('.png');
-    bool endsWithJpg = url.toLowerCase().startsWith('.jpg');
-    bool endsWithJpeg = url.toLowerCase().startsWith('.jpeg');
+    bool endWithPng = url.toLowerCase().endsWith('.png');
+    bool endWithJpg = url.toLowerCase().endsWith('.jpg');
+    bool endWithJpeg = url.toLowerCase().endsWith('.jpeg');
     return (startsWithHttp || startsWithHttps) &&
-        (endsWithPng || endsWithJpg || endsWithJpeg);
+        (endWithPng || endWithJpg || endWithJpeg);
   }
 
   @override
@@ -59,14 +80,21 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
 
     _form.currentState.save();
 
-    final newProduct = Product(
+    final product = Product(
+      id: _formData['id'],
       title: _formData['title'],
       price: _formData['price'],
       description: _formData['description'],
       imageUrl: _formData['imageUrl'],
     );
 
-    Provider.of<Products>(context, listen: false).addProduct(newProduct);
+    final products = Provider.of<Products>(context, listen: false);
+    if (_formData['id'] == null) {
+      products.addProduct(product);
+    } else {
+      products.updateProduct(product);
+    }
+
     Navigator.of(context).pop();
 
     // print(newProduct.id);
@@ -95,6 +123,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
           child: ListView(
             children: <Widget>[
               TextFormField(
+                initialValue: _formData['title'],
                 decoration: InputDecoration(labelText: 'Título'),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
@@ -113,6 +142,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 },
               ),
               TextFormField(
+                initialValue: _formData['price'].toString(),
                 decoration: InputDecoration(labelText: 'Preço'),
                 textInputAction: TextInputAction.next,
                 focusNode: _priceFocusNode,
@@ -136,6 +166,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                 },
               ),
               TextFormField(
+                initialValue: _formData['description'],
                 decoration: InputDecoration(labelText: 'Descrição'),
                 maxLines: 3,
                 keyboardType: TextInputType.multiline,
