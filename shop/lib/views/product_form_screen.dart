@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +21,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   @override
   void initState() {
     super.initState();
-    _imageUrlFocusNode.addListener(_updateImageUrl);
+    _imageUrlFocusNode.addListener(_updateImage);
   }
 
   @override
@@ -47,20 +45,20 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     }
   }
 
-  void _updateImageUrl() {
+  void _updateImage() {
     if (isValidImageUrl(_imageUrlController.text)) {
       setState(() {});
     }
   }
 
   bool isValidImageUrl(String url) {
-    bool startsWithHttp = url.toLowerCase().startsWith('http://');
-    bool startsWithHttps = url.toLowerCase().startsWith('https://');
-    bool endWithPng = url.toLowerCase().endsWith('.png');
-    bool endWithJpg = url.toLowerCase().endsWith('.jpg');
-    bool endWithJpeg = url.toLowerCase().endsWith('.jpeg');
-    return (startsWithHttp || startsWithHttps) &&
-        (endWithPng || endWithJpg || endWithJpeg);
+    bool startWithHttp = url.toLowerCase().startsWith('http://');
+    bool startWithHttps = url.toLowerCase().startsWith('https://');
+    bool endsWithPng = url.toLowerCase().endsWith('.png');
+    bool endsWithJpg = url.toLowerCase().endsWith('.jpg');
+    bool endsWithJpeg = url.toLowerCase().endsWith('.jpeg');
+    return (startWithHttp || startWithHttps) &&
+        (endsWithPng || endsWithJpg || endsWithJpeg);
   }
 
   @override
@@ -68,7 +66,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     super.dispose();
     _priceFocusNode.dispose();
     _descriptionFocusNode.dispose();
-    _imageUrlFocusNode.removeListener(_updateImageUrl);
+    _imageUrlFocusNode.removeListener(_updateImage);
     _imageUrlFocusNode.dispose();
   }
 
@@ -94,32 +92,29 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     });
 
     final products = Provider.of<Products>(context, listen: false);
-    if (_formData['id'] == null) {
-      try {
+
+    try {
+      if (_formData['id'] == null) {
         await products.addProduct(product);
-        Navigator.of(context).pop();
-      } catch (error) {
-        await showDialog<Null>(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text('Ocorreu um erro!'),
-            content: Text('Ocorreu um erro ao tentar salvar o produto!'),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Ok'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
+      } else {
+        await products.updateProduct(product);
       }
-    } else {
-      products.updateProduct(product);
+      Navigator.of(context).pop();
+    } catch (error) {
+      await showDialog<Null>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('Ocorreu um erro!'),
+          content: Text('Ocorreu um erro pra salvar o produto!'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Fechar'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      );
+    } finally {
       setState(() {
         _isLoading = false;
       });
@@ -137,7 +132,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
             onPressed: () {
               _saveForm();
             },
-          ),
+          )
         ],
       ),
       body: _isLoading
@@ -215,7 +210,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
+                      children: <Widget>[
                         Expanded(
                           child: TextFormField(
                             decoration:
