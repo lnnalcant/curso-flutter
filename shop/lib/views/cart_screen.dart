@@ -33,7 +33,8 @@ class CartScreen extends StatelessWidget {
                     label: Text(
                       'R\$${cart.totalAmount}',
                       style: TextStyle(
-                        color: Theme.of(context).primaryTextTheme.title.color,
+                        color:
+                            Theme.of(context).primaryTextTheme.headline6.color,
                       ),
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
@@ -77,20 +78,22 @@ class _OrderButtonState extends State<OrderButton> {
     return FlatButton(
       child: _isLoading ? CircularProgressIndicator() : Text('COMPRAR'),
       textColor: Theme.of(context).primaryColor,
-      onPressed: widget.cart.totalAmount == 0 ? null : () async {
-        setState(() {
-          _isLoading = true;
-        });
-        
-        await Provider.of<Orders>(context, listen: false)
-            .addOrder(widget.cart);
-        
-        setState(() {
-          _isLoading = false;
-        });
+      onPressed: widget.cart.totalAmount == 0
+          ? null
+          : () async {
+              setState(() {
+                _isLoading = true;
+              });
 
-        widget.cart.clear();
-      },
+              await Provider.of<Orders>(context, listen: false)
+                  .addOrder(widget.cart);
+
+              setState(() {
+                _isLoading = false;
+              });
+
+              widget.cart.clear();
+            },
     );
   }
 }
