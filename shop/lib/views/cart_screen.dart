@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/cart_item_widget.dart';
+
 import '../providers/cart.dart';
 import '../providers/orders.dart';
 
@@ -25,7 +26,7 @@ class CartScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'Total',
+                    'Total:',
                     style: TextStyle(fontSize: 20),
                   ),
                   SizedBox(width: 10),

@@ -4,6 +4,7 @@ import 'package:shop/exceptions/http_exception.dart';
 
 import '../providers/product.dart';
 import '../providers/products.dart';
+
 import '../utils/app_routes.dart';
 
 class ProductItem extends StatelessWidget {

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/app_drawer.dart';
 import '../providers/products.dart';
+
+import '../widgets/app_drawer.dart';
 import '../widgets/product_item.dart';
+
 import '../utils/app_routes.dart';
 
 class ProductsScreen extends StatelessWidget {
-
   Future<void> _refreshProducts(BuildContext context) {
     return Provider.of<Products>(context, listen: false).loadProducts();
   }
